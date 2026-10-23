@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Lint & Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify repository structure and health
+        run: |
+          echo "Validating EmpireCommunitySite repository integrity..."
+          test -f README.md || exit 1
+          test -f LICENSE || exit 1
+          echo "Repository integrity check passed successfully."
